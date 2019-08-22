@@ -2,7 +2,9 @@
 <div class="col-4" style="margin-top:10px;">
     <div class="card">
         <div class="card-body" style="min-height: 200px; max-height:200px;overflow-y: hidden;">
-            <h5 class="card-title text-primary">@Model.Nome</h5>
+            <a asp-action="Detalhes" asp-route-id="@Model.Id">
+                <h5 class="card-title text-primary">@Model.Nome</h5>
+            </a>
             <p class="card-text">
                 @Model.Descricao
             </p>
