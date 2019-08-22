@@ -55,5 +55,21 @@ namespace TDSTecnologia.Site.Web.Controllers
             return View(curso);
         }
 
+        public async Task<IActionResult> Alterar(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var curso = await _context.CursoDao.FindAsync(id);
+
+            if (curso == null)
+            {
+                return NotFound();
+            }
+            return View(curso);
+        }
+
     }
 }
