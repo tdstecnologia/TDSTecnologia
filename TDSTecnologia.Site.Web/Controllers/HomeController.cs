@@ -91,5 +91,22 @@ namespace TDSTecnologia.Site.Web.Controllers
             return View(curso);
         }
 
+        public async Task<IActionResult> Excluir(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var curso = await _context.CursoDao
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (curso == null)
+            {
+                return NotFound();
+            }
+
+            return View(curso);
+        }
+
     }
 }
