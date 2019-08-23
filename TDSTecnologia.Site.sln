@@ -7,9 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{51781703-00A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDSTecnologia.Site.Web", "TDSTecnologia.Site.Web\TDSTecnologia.Site.Web.csproj", "{BDB23472-11DE-4553-B3CA-A1DA54C080AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDSTecnologia.Site.Core", "TDSTecnologia.Site.Core\TDSTecnologia.Site.Core.csproj", "{3C3481D3-5155-46A5-9DAA-2A16EA4F8666}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDSTecnologia.Site.Core", "TDSTecnologia.Site.Core\TDSTecnologia.Site.Core.csproj", "{3C3481D3-5155-46A5-9DAA-2A16EA4F8666}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDSTecnologia.Site.Infrastructure", "TDSTecnologia.Site.Infrastructure\TDSTecnologia.Site.Infrastructure.csproj", "{EE24F25B-A27F-49D4-9BD2-ECC17FE6E461}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDSTecnologia.Site.Infrastructure", "TDSTecnologia.Site.Infrastructure\TDSTecnologia.Site.Infrastructure.csproj", "{EE24F25B-A27F-49D4-9BD2-ECC17FE6E461}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

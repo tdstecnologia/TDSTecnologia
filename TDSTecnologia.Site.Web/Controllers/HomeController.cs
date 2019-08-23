@@ -108,5 +108,15 @@ namespace TDSTecnologia.Site.Web.Controllers
             return View(curso);
         }
 
+        [HttpPost, ActionName("Excluir")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConfirmarExclusao(int id)
+        {
+            var curso = await _context.CursoDao.FindAsync(id);
+            _context.CursoDao.Remove(curso);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
