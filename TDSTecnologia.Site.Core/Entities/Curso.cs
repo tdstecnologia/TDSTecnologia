@@ -22,5 +22,8 @@ namespace TDSTecnologia.Site.Core.Entities
 
         [Column("data_inicio")]
         public DateTime DataInicio { get; set; }
+
+        [Column("banner")]
+        public byte[] Banner { get; set; }
     }
 }
