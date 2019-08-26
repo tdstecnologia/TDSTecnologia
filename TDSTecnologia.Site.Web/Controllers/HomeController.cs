@@ -42,7 +42,7 @@ namespace TDSTecnologia.Site.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Novo([Bind("Id,Nome,Descricao,QuantidadeAula,DataInicio")] Curso curso, IFormFile arquivo)
+        public async Task<IActionResult> Novo([Bind("Id,Nome,Descricao,QuantidadeAula,DataInicio,Turno")] Curso curso, IFormFile arquivo)
         {
             if (ModelState.IsValid)
             {
