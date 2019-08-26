@@ -10,6 +10,10 @@
                 @Model.Descricao
             </p>
         </div>
+        <div class="card-body">
+            <a asp-action="Alterar" class="btn btn-sm btn-outline-info" asp-route-id="@Model.Id">Alterar</a>
+            <a asp-action="Excluir" class="btn btn-sm btn-outline-danger" asp-route-id="@Model.Id">Excluir</a>
+        </div>
         <div class="card-footer text-muted" style="padding : 0px; height:50px;">
             <table class="table table-bordered">
                 <tr>
