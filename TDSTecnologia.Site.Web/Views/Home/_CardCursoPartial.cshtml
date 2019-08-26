@@ -1,6 +1,7 @@
 ﻿@model TDSTecnologia.Site.Core.Entities.Curso
 <div class="col-4" style="margin-top:10px;">
     <div class="card">
+        <img class="card-img-top" alt="Card image cap" src="@Model.BannerBase64" />
         <div class="card-body" style="min-height: 200px; max-height:200px;overflow-y: hidden;">
             <a asp-action="Detalhes" asp-route-id="@Model.Id">
                 <h5 class="card-title text-primary">@Model.Nome</h5>

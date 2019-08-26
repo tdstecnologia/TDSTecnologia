@@ -25,5 +25,8 @@ namespace TDSTecnologia.Site.Core.Entities
 
         [Column("banner")]
         public byte[] Banner { get; set; }
+
+        [NotMapped]
+        public string BannerBase64 { get; set; }
     }
 }
