@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TDSTecnologia.Site.Core.Dominio;
 
 namespace TDSTecnologia.Site.Core.Entities
 {
@@ -28,5 +29,8 @@ namespace TDSTecnologia.Site.Core.Entities
 
         [NotMapped]
         public string BannerBase64 { get; set; }
+
+        [Column("turno")]
+        public DomTurno Turno { get; set; }
     }
 }
