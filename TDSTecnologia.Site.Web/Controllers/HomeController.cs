@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
 using TDSTecnologia.Site.Infrastructure.Repository;
+using TDSTecnologia.Site.Infrastructure.Services;
 
 namespace TDSTecnologia.Site.Web.Controllers
 {
@@ -15,16 +16,18 @@ namespace TDSTecnologia.Site.Web.Controllers
     {
         private readonly AppContexto _context;
         private CursoRespository _cursoRespository;
+        private CursoService _cursoService;
 
-        public HomeController(AppContexto context, CursoRespository cursoRespository)
+        public HomeController(AppContexto context, CursoRespository cursoRespository, CursoService cursoService)
         {
             _context = context;
             _cursoRespository = cursoRespository;
+            _cursoService = cursoService;
         }
 
         public async Task<IActionResult> Index()
         {
-            List<Curso> cursos = await _cursoRespository.ListarTodos();
+            List<Curso> cursos = await _cursoService.ListarTodos();
 
             return View(cursos);
         }
@@ -88,7 +91,7 @@ namespace TDSTecnologia.Site.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Alterar(int id, [Bind("Id,Nome,Descricao,QuantidadeAula,DataInicio")] Curso curso)
+        public async Task<IActionResult> Alterar(int id, [Bind("Id,Nome,Descricao,QuantidadeAula,DataInicio,Turno")] Curso curso)
         {
             if (id != curso.Id)
             {
@@ -98,6 +101,7 @@ namespace TDSTecnologia.Site.Web.Controllers
             if (ModelState.IsValid)
             {
                 _context.Update(curso);
+                _context.Entry<Curso>(curso).Property(c => c.Banner).IsModified = false;
                 await _context.SaveChangesAsync();
 
 

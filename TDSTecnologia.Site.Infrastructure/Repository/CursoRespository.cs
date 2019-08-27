@@ -22,7 +22,7 @@ namespace TDSTecnologia.Site.Infrastructure.Repository
             {
                 if (c.Banner != null)
                 {
-                    c.BannerBase64 = "data:image/png;base64," + Convert.ToBase64String(c.Banner, 0, c.Banner.Length);
+                    //c.BannerBase64 = "data:image/png;base64," + Convert.ToBase64String(c.Banner, 0, c.Banner.Length);
                 }
             });
 

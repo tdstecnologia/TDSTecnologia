@@ -28,7 +28,11 @@ namespace TDSTecnologia.Site.Core.Entities
         public byte[] Banner { get; set; }
 
         [NotMapped]
-        public string BannerBase64 { get; set; }
+        public string BannerBase64 {
+            get {
+                return Banner != null ?  "data:image/png;base64," + Convert.ToBase64String(Banner, 0, Banner.Length) : null ;
+            }
+        }
 
         [Column("turno")]
         public DomTurno Turno { get; set; }
