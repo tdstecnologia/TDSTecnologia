@@ -7,29 +7,24 @@ using System.IO;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
+using TDSTecnologia.Site.Infrastructure.Repository;
 
 namespace TDSTecnologia.Site.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly AppContexto _context;
+        private CursoRespository _cursoRespository;
 
-        public HomeController(AppContexto context)
+        public HomeController(AppContexto context, CursoRespository cursoRespository)
         {
             _context = context;
+            _cursoRespository = cursoRespository;
         }
 
         public async Task<IActionResult> Index()
         {
-            List<Curso> cursos = await _context.CursoDao.ToListAsync();
-
-            cursos.ForEach(c =>
-            {
-                if (c.Banner != null)
-                {
-                    c.BannerBase64 = "data:image/png;base64," + Convert.ToBase64String(c.Banner, 0, c.Banner.Length);
-                }
-            });
+            List<Curso> cursos = await _cursoRespository.ListarTodos();
 
             return View(cursos);
         }
