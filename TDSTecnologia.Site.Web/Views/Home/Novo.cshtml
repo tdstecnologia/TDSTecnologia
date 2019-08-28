@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label for="arquivo" class="control-label"></label>
-                <input type="file"  class="btn btn-primary form-control" name="arquivo" id="arquivo" onchange="CarregarImagem(this)" />
+                <input type="file" class="btn btn-primary form-control" name="arquivo" id="arquivo" onchange="CarregarImagem(this)" />
             </div>
             <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
@@ -48,6 +48,31 @@
                     }
                 </select>
                 <span asp-validation-for="Turno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Modalidade" class="control-label"></label>
+                <select asp-for="Modalidade" class="form-control">
+                    @foreach (DomModalidade modalidade in Enum.GetValues(typeof(DomModalidade)))
+                    {
+                        <option value="@modalidade.ToString()">@modalidade.Descricao()</option>
+                    }
+                </select>
+                <span asp-validation-for="Modalidade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nivel" class="control-label"></label>
+                <select asp-for="Nivel" class="form-control">
+                    @foreach (DomNivel nivel in Enum.GetValues(typeof(DomNivel)))
+                    {
+                        <option value="@nivel.ToString()">@nivel.Descricao()</option>
+                    }
+                </select>
+                <span asp-validation-for="Nivel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vagas" class="control-label">Nº de Vagas</label>
+                <input asp-for="Vagas" class="form-control" />
+                <span asp-validation-for="Vagas" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Salvar" class="btn btn-primary" />

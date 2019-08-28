@@ -36,5 +36,15 @@ namespace TDSTecnologia.Site.Core.Entities
 
         [Column("turno")]
         public DomTurno Turno { get; set; }
+
+        [Column("modalidade")]
+        public DomModalidade Modalidade { get; set; }
+
+        [Column("nivel")]
+        public DomNivel Nivel { get; set; }
+
+        [Column("vagas")]
+        public int Vagas { get; set; }
+
     }
 }
