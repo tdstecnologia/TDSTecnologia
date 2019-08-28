@@ -9,7 +9,7 @@
 </div>
 <hr />
 <div class="row">
-    <div class="col-md-8 offset-2">
+    <div class="col-12 col-lg-8 offset-lg-2">
         <form asp-action="Novo" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label for="arquivo" class="control-label"></label>
-                <input type="file" class="btn btn-primary" name="arquivo" id="arquivo" onchange="CarregarImagem(this)" />
+                <input type="file"  class="btn btn-primary form-control" name="arquivo" id="arquivo" onchange="CarregarImagem(this)" />
             </div>
             <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
