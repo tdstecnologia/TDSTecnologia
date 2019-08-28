@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
+using TDSTecnologia.Site.Core.Utilitarios;
 using TDSTecnologia.Site.Infrastructure.Data;
 using TDSTecnologia.Site.Infrastructure.Repository;
 using TDSTecnologia.Site.Infrastructure.Services;
@@ -44,12 +45,7 @@ namespace TDSTecnologia.Site.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (arquivo != null && arquivo.ContentType.ToLower().StartsWith("image/"))
-                {
-                    MemoryStream ms = new MemoryStream();
-                    await arquivo.OpenReadStream().CopyToAsync(ms);
-                    curso.Banner = ms.ToArray();
-                }
+                curso.Banner = await UtilImagem.ConvertarParaByte(arquivo);
                 _context.Add(curso);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

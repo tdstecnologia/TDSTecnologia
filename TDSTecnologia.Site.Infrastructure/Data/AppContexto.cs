@@ -22,5 +22,6 @@ namespace TDSTecnologia.Site.Infrastructure.Data
             v => v.ToString(),
             v => (DomTurno)Enum.Parse(typeof(DomTurno), v));
         }
+
     }
 }
