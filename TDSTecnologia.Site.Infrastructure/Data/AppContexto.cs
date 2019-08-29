@@ -2,6 +2,7 @@
 using System;
 using TDSTecnologia.Site.Core.Dominio;
 using TDSTecnologia.Site.Core.Entities;
+using TDSTecnologia.Site.Infrastructure.Map;
 
 namespace TDSTecnologia.Site.Infrastructure.Data
 {
@@ -15,6 +16,9 @@ namespace TDSTecnologia.Site.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.ApplyConfiguration(new CursoMapConfiguration());
+
             modelBuilder
             .Entity<Curso>()
             .Property(c => c.Turno)
