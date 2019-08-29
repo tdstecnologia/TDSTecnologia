@@ -9,7 +9,7 @@ namespace TDSTecnologia.Site.Core.Utilitarios
 {
     public class UtilImagem
     {
-        public static async Task<byte[]> ConvertarParaByte(IFormFile imagem)
+        public static async Task<byte[]> ConverterParaByte(IFormFile imagem)
         {
             if (imagem != null && imagem.ContentType.ToLower().StartsWith("image/"))
             {
@@ -18,6 +18,11 @@ namespace TDSTecnologia.Site.Core.Utilitarios
                 return ms.ToArray();
             }
             return null;
+        }
+
+        public static string ConverterByteArrayParaStringBase64(byte[] imagem)
+        {
+           return imagem != null ? "data:image/png;base64," + Convert.ToBase64String(imagem, 0, imagem.Length) : null;
         }
     }
 }

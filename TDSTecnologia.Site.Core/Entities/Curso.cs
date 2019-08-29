@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TDSTecnologia.Site.Core.Dominio;
+using TDSTecnologia.Site.Core.Utilitarios;
 
 namespace TDSTecnologia.Site.Core.Entities
 {
@@ -30,7 +31,7 @@ namespace TDSTecnologia.Site.Core.Entities
         [NotMapped]
         public string BannerBase64 {
             get {
-                return Banner != null ?  "data:image/png;base64," + Convert.ToBase64String(Banner, 0, Banner.Length) : null ;
+                return UtilImagem.ConverterByteArrayParaStringBase64(Banner);
             }
         }
 

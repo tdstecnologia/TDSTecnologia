@@ -45,7 +45,7 @@ namespace TDSTecnologia.Site.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                curso.Banner = await UtilImagem.ConvertarParaByte(arquivo);
+                curso.Banner = await UtilImagem.ConverterParaByte(arquivo);
                 _context.Add(curso);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
