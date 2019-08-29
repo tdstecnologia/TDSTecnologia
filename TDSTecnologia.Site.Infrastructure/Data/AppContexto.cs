@@ -20,13 +20,6 @@ namespace TDSTecnologia.Site.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new CursoMapConfiguration());
 
             modelBuilder
-            .Entity<Curso>()
-            .Property(c => c.Turno)
-            .HasConversion(
-            v => v.ToString(),
-            v => (DomTurno)Enum.Parse(typeof(DomTurno), v));
-
-            modelBuilder
            .Entity<Curso>()
            .Property(c => c.Modalidade)
            .HasConversion(

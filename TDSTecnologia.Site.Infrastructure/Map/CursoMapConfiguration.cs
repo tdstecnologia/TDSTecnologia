@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TDSTecnologia.Site.Core.Dominio;
 using TDSTecnologia.Site.Core.Entities;
 
 namespace TDSTecnologia.Site.Infrastructure.Map
@@ -15,6 +16,9 @@ namespace TDSTecnologia.Site.Infrastructure.Map
                 .HasMaxLength(100)
                 .HasColumnType("varchar")
                 .HasColumnName("nome");
+
+            builder.Property(x => x.Turno)
+               .HasConversion(DominioConverter.ConverterDomTurno());
 
             builder.ToTable("tb01_curso");
         }
