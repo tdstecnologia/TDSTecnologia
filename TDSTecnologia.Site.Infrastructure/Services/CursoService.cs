@@ -41,5 +41,12 @@ namespace TDSTecnologia.Site.Infrastructure.Services
             var curso = await Consultar(id);
             await _cursoRespository.Excluir(curso);
         }
+
+        public List<Curso> PesquisarPorNomeDescricao(string texto)
+        {
+            List<Curso> cursos = _cursoRespository.PesquisarPorNomeDescricao(texto);
+
+            return cursos;
+        }
     }
 }

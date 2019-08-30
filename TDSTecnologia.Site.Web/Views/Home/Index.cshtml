@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "_Layout";
 }
-@model IEnumerable<TDSTecnologia.Site.Core.Entities.Curso>
+@model CursoViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -12,7 +12,17 @@
     <p>Veja aqui nossos proximos cursos agendados, se preferir acesso nosso <b>Calendário completo</b>.</p>
 </div>
 <div class="row">
-    @foreach (var item in Model)
+    <div class="col-12 col-lg-8 offset-lg-2">
+        <form asp-action="PesquisarCurso">
+            <div class="input-group mb-3">
+                <input type="text" asp-for="Texto" class="form-control" placeholder="Nome o descrição do curso" aria-label="Pesquisar" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="submit">Pesquisar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    @foreach (var item in Model.Cursos)
     {
         @await Html.PartialAsync("_CardCursoPartial.cshtml", item)
     }

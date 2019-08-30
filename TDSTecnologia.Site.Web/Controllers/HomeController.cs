@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Core.Utilitarios;
 using TDSTecnologia.Site.Infrastructure.Services;
+using TDSTecnologia.Site.Web.ViewModels;
 
 namespace TDSTecnologia.Site.Web.Controllers
 {
@@ -21,8 +23,29 @@ namespace TDSTecnologia.Site.Web.Controllers
         public async Task<IActionResult> Index()
         {
             List<Curso> cursos = await _cursoService.ListarTodos();
+            var viewModel = new CursoViewModel
+            {
+                Cursos = cursos
+            };
+            return View(viewModel);
+        }
 
-            return View(cursos);
+        public IActionResult PesquisarCurso(CursoViewModel pesquisa)
+        {
+            if (pesquisa.Texto != null && !String.IsNullOrEmpty(pesquisa.Texto))
+            {
+                List<Curso> cursos = _cursoService.PesquisarPorNomeDescricao(pesquisa.Texto);
+                var viewModel = new CursoViewModel
+                {
+                    Cursos = cursos
+                };
+                return View("Index", viewModel);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
+           
         }
 
         [HttpGet]

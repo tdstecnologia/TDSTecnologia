@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
@@ -28,6 +29,13 @@ namespace TDSTecnologia.Site.Infrastructure.Repository
         public async Task<Curso> Consultar(int? id)
         {
             return await _context.CursoDao.FindAsync(id);
+        }
+
+        public List<Curso> PesquisarPorNomeDescricao(string texto)
+        {
+            List<Curso> cursos = _context.CursoDao.Where(x => EF.Functions.ILike(x.Nome, $"%{texto}%") || EF.Functions.ILike(x.Descricao, $"%{texto}%")).OrderBy(x => x.Nome).ToList();
+
+            return cursos;
         }
 
         public async Task Alterar(Curso curso)
