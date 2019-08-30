@@ -10,7 +10,7 @@ namespace TDSTecnologia.Site.Infrastructure.Services
     {
         private readonly CursoRespository _cursoRespository;
 
-        public CursoService(AppContexto context): base(context)
+        public CursoService(AppContexto context) : base(context)
         {
             _cursoRespository = new CursoRespository(context);
         }
@@ -18,6 +18,28 @@ namespace TDSTecnologia.Site.Infrastructure.Services
         public async Task<List<Curso>> ListarTodos()
         {
             return await _cursoRespository.ListarTodos();
+        }
+
+        public async Task<int> Salvar(Curso curso)
+        {
+            _context.Add(curso);
+           return await _context.SaveChangesAsync();
+        }
+
+        public async Task<Curso> Consultar(int? id)
+        {
+            return await _cursoRespository.Consultar(id);
+        }
+
+        public async Task Atualizar(Curso curso)
+        {
+            await _cursoRespository.Alterar(curso);
+        }
+
+        public async Task Excluir(int? id)
+        {
+            var curso = await Consultar(id);
+            await _cursoRespository.Excluir(curso);
         }
     }
 }

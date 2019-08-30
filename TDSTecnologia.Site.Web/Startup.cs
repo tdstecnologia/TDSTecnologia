@@ -24,7 +24,6 @@ namespace TDSTecnologia.Site.Web
             services.AddEntityFrameworkNpgsql()
          .AddDbContext<AppContexto>(options => options.UseNpgsql(Configuration.GetConnectionString("AppConnection")));
 
-            services.AddScoped<CursoRespository, CursoRespository>();
             services.AddScoped<CursoService, CursoService>();
         }
 

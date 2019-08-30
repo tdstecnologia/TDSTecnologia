@@ -16,17 +16,31 @@ namespace TDSTecnologia.Site.Infrastructure.Repository
 
         public async Task<List<Curso>> ListarTodos()
         {
-            List<Curso> cursos = await _context.CursoDao.ToListAsync();
+            return await _context.CursoDao.ToListAsync();
+        }
 
-            cursos.ForEach(c =>
-            {
-                if (c.Banner != null)
-                {
-                    //c.BannerBase64 = "data:image/png;base64," + Convert.ToBase64String(c.Banner, 0, c.Banner.Length);
-                }
-            });
+        public async void Salvar(Curso curso)
+        {
+            _context.Add(curso);
+            await _context.SaveChangesAsync();
+        }
 
-            return cursos;
+        public async Task<Curso> Consultar(int? id)
+        {
+            return await _context.CursoDao.FindAsync(id);
+        }
+
+        public async Task Alterar(Curso curso)
+        {
+            _context.Update(curso);
+            _context.Entry<Curso>(curso).Property(c => c.Banner).IsModified = false;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Excluir(Curso curso)
+        {
+            _context.CursoDao.Remove(curso);
+            await _context.SaveChangesAsync();
         }
 
     }
