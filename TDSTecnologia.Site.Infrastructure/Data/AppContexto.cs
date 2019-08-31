@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using TDSTecnologia.Site.Core.Dominio;
 using TDSTecnologia.Site.Core.Entities;
@@ -6,7 +7,7 @@ using TDSTecnologia.Site.Infrastructure.Map;
 
 namespace TDSTecnologia.Site.Infrastructure.Data
 {
-    public class AppContexto : DbContext
+    public class AppContexto : IdentityDbContext<Usuario, Permissao, string>
     {
         public AppContexto(DbContextOptions<AppContexto> opcoes) : base(opcoes)
         {
@@ -16,7 +17,8 @@ namespace TDSTecnologia.Site.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema("tdstecnologia");
             modelBuilder.ApplyConfiguration(new CursoMapConfiguration());
 
             modelBuilder
@@ -32,6 +34,9 @@ namespace TDSTecnologia.Site.Infrastructure.Data
            .HasConversion(
            v => v.ToString(),
            v => (DomNivel)Enum.Parse(typeof(DomNivel), v));
+
+            modelBuilder.ApplyConfiguration(new UsuarioMapConfiguration());
+            modelBuilder.ApplyConfiguration(new PermissaoMapConfiguration());
         }
 
     }
