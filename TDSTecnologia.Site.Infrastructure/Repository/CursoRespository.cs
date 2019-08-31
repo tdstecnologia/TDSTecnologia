@@ -15,20 +15,19 @@ namespace TDSTecnologia.Site.Infrastructure.Repository
         {
         }
 
-        public async Task<List<Curso>> ListarTodos()
+        public List<Curso> ListarTodos()
         {
-            return await _context.CursoDao.ToListAsync();
+            return  _context.CursoDao.ToList();
         }
 
-        public async void Salvar(Curso curso)
+        public void Salvar(Curso curso)
         {
             _context.Add(curso);
-            await _context.SaveChangesAsync();
         }
 
-        public async Task<Curso> Consultar(int? id)
+        public Curso Consultar(int? id)
         {
-            return await _context.CursoDao.FindAsync(id);
+            return _context.CursoDao.Find(id);
         }
 
         public List<Curso> PesquisarPorNomeDescricao(string texto)
@@ -38,17 +37,15 @@ namespace TDSTecnologia.Site.Infrastructure.Repository
             return cursos;
         }
 
-        public async Task Alterar(Curso curso)
+        public void Alterar(Curso curso)
         {
             _context.Update(curso);
             _context.Entry<Curso>(curso).Property(c => c.Banner).IsModified = false;
-            await _context.SaveChangesAsync();
         }
 
-        public async Task Excluir(Curso curso)
+        public void Excluir(Curso curso)
         {
             _context.CursoDao.Remove(curso);
-            await _context.SaveChangesAsync();
         }
 
     }

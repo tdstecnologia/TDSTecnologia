@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
 using TDSTecnologia.Site.Infrastructure.Repository;
@@ -15,31 +14,33 @@ namespace TDSTecnologia.Site.Infrastructure.Services
             _cursoRespository = new CursoRespository(context);
         }
 
-        public async Task<List<Curso>> ListarTodos()
+        public List<Curso> ListarTodos()
         {
-            return await _cursoRespository.ListarTodos();
+            return _cursoRespository.ListarTodos();
         }
 
-        public async Task<int> Salvar(Curso curso)
+        public void Salvar(Curso curso)
         {
             _context.Add(curso);
-           return await _context.SaveChangesAsync();
+            SaveChangesApp();
         }
 
-        public async Task<Curso> Consultar(int? id)
+        public Curso Consultar(int? id)
         {
-            return await _cursoRespository.Consultar(id);
+            return _cursoRespository.Consultar(id);
         }
 
-        public async Task Atualizar(Curso curso)
+        public void Atualizar(Curso curso)
         {
-            await _cursoRespository.Alterar(curso);
+            _cursoRespository.Alterar(curso);
+            SaveChangesApp();
         }
 
-        public async Task Excluir(int? id)
+        public void Excluir(int? id)
         {
-            var curso = await Consultar(id);
-            await _cursoRespository.Excluir(curso);
+            var curso = Consultar(id);
+            _cursoRespository.Excluir(curso);
+            SaveChangesApp();
         }
 
         public List<Curso> PesquisarPorNomeDescricao(string texto)

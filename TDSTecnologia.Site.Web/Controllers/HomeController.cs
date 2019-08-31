@@ -20,9 +20,9 @@ namespace TDSTecnologia.Site.Web.Controllers
             _cursoService = cursoService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            List<Curso> cursos = await _cursoService.ListarTodos();
+            List<Curso> cursos = _cursoService.ListarTodos();
             var viewModel = new CursoViewModel
             {
                 Cursos = cursos
@@ -56,25 +56,25 @@ namespace TDSTecnologia.Site.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Novo([Bind("Id,Nome,Descricao,QuantidadeAula,DataInicio,Turno,Modalidade,Nivel,Vagas")] Curso curso, IFormFile arquivo)
+        public IActionResult Novo([Bind("Id,Nome,Descricao,QuantidadeAula,DataInicio,Turno,Modalidade,Nivel,Vagas")] Curso curso, IFormFile arquivo)
         {
             if (ModelState.IsValid)
             {
-                curso.Banner = await UtilImagem.ConverterParaByte(arquivo);
-               await _cursoService.Salvar(curso);
+                curso.Banner = UtilImagem.ConverterParaByte(arquivo);
+               _cursoService.Salvar(curso);
                 return RedirectToAction(nameof(Index));
             }
             return View(curso);
         }
 
-        public async Task<IActionResult> Detalhes(int? id)
+        public IActionResult Detalhes(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var curso = await _cursoService.Consultar(id);
+            var curso = _cursoService.Consultar(id);
             if (curso == null)
             {
                 return NotFound();
@@ -83,14 +83,14 @@ namespace TDSTecnologia.Site.Web.Controllers
             return View(curso);
         }
 
-        public async Task<IActionResult> Alterar(int? id)
+        public IActionResult Alterar(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var curso = await _cursoService.Consultar(id);
+            var curso = _cursoService.Consultar(id);
 
             if (curso == null)
             {
@@ -101,7 +101,7 @@ namespace TDSTecnologia.Site.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Alterar(int id, [Bind("Id,Nome,Descricao,QuantidadeAula,DataInicio,Turno,Modalidade,Nivel,Vagas")] Curso curso)
+        public IActionResult Alterar(int id, [Bind("Id,Nome,Descricao,QuantidadeAula,DataInicio,Turno,Modalidade,Nivel,Vagas")] Curso curso)
         {
             if (id != curso.Id)
             {
@@ -110,20 +110,20 @@ namespace TDSTecnologia.Site.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                await _cursoService.Atualizar(curso);
+                _cursoService.Atualizar(curso);
                 return RedirectToAction(nameof(Index));
             }
             return View(curso);
         }
 
-        public async Task<IActionResult> Excluir(int? id)
+        public IActionResult Excluir(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var curso = await _cursoService.Consultar(id);
+            var curso = _cursoService.Consultar(id);
             if (curso == null)
             {
                 return NotFound();
@@ -134,9 +134,9 @@ namespace TDSTecnologia.Site.Web.Controllers
 
         [HttpPost, ActionName("Excluir")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmarExclusao(int id)
+        public IActionResult ConfirmarExclusao(int id)
         {
-            await _cursoService.Excluir(id);
+            _cursoService.Excluir(id);
             return RedirectToAction(nameof(Index));
         }
 
