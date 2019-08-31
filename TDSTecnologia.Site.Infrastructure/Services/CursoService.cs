@@ -25,20 +25,20 @@ namespace TDSTecnologia.Site.Infrastructure.Services
             SaveChangesApp();
         }
 
-        public Curso Consultar(int? id)
+        public Curso PesquisarPorId(int? id)
         {
-            return _cursoRespository.Consultar(id);
+            return _cursoRespository.PesquisarPorId(id);
         }
 
         public void Atualizar(Curso curso)
         {
-            _cursoRespository.Alterar(curso);
+            _cursoRespository.Atualizar(curso);
             SaveChangesApp();
         }
 
         public void Excluir(int? id)
         {
-            var curso = Consultar(id);
+            var curso = PesquisarPorId(id);
             _cursoRespository.Excluir(curso);
             SaveChangesApp();
         }

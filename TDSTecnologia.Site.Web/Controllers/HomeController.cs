@@ -74,7 +74,7 @@ namespace TDSTecnologia.Site.Web.Controllers
                 return NotFound();
             }
 
-            var curso = _cursoService.Consultar(id);
+            var curso = _cursoService.PesquisarPorId(id);
             if (curso == null)
             {
                 return NotFound();
@@ -90,7 +90,7 @@ namespace TDSTecnologia.Site.Web.Controllers
                 return NotFound();
             }
 
-            var curso = _cursoService.Consultar(id);
+            var curso = _cursoService.PesquisarPorId(id);
 
             if (curso == null)
             {
@@ -123,7 +123,7 @@ namespace TDSTecnologia.Site.Web.Controllers
                 return NotFound();
             }
 
-            var curso = _cursoService.Consultar(id);
+            var curso = _cursoService.PesquisarPorId(id);
             if (curso == null)
             {
                 return NotFound();
