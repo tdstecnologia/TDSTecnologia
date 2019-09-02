@@ -16,6 +16,12 @@ namespace TDSTecnologia.Site.Web.Controllers
             _usuarioService = usuarioService;
         }
         
+        public async Task<IActionResult> Logout()
+        {
+            await _usuarioService.Logout();
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpGet]
         public IActionResult Cadastro()
         {

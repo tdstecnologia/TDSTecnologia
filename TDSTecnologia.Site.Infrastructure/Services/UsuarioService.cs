@@ -30,9 +30,9 @@ namespace TDSTecnologia.Site.Infrastructure.Services
             await _usuarioRepository.Login(usuario, lembrar);
         }
 
-        public async Task LogOut()
+        public async Task Logout()
         {
-            await _usuarioRepository.LogOut();
+            await _usuarioRepository.Logout();
         }
     }
 }
