@@ -17,12 +17,20 @@ namespace TDSTecnologia.Site.Web
         {
             Configuration = configuration;
         }
-
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddEntityFrameworkNpgsql()
          .AddDbContext<AppContexto>(options => options.UseNpgsql(Configuration.GetConnectionString("AppConnection")));
+
+            services.AddScoped<CursoService, CursoService>();
+        }
+
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            services.AddMvc();
+            services.AddEntityFrameworkNpgsql()
+         .AddDbContext<AppContexto>(options => options.UseNpgsql(Databases.Instance.Conexao));
 
             services.AddScoped<CursoService, CursoService>();
         }
