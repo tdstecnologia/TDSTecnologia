@@ -34,7 +34,7 @@
                         </td>
 
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Atualizar nível de acesso"><i class="far fa-edit"></i></a> &nbsp;
+                            <a asp-action="Alterar" asp-route-id="@item.Id" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Atualizar nível de acesso"><i class="far fa-edit"></i></a> &nbsp;
                             <a class="btn btn-outline-danger" data-toggle="tooltip" data-placement="top" title="Excluir nível de acesso" onclick="ConfirmarExclusao('@item.Id', '@item.Name', '@controller')"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>

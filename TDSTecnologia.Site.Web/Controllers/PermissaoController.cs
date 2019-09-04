@@ -45,5 +45,49 @@ namespace TDSTecnologia.Site.Web.Controllers
             }
             return View(permissao);
         }
+
+        public IActionResult Alterar(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var permissao = _permissaoService.PesquisarPorId(id);
+            if (permissao == null)
+            {
+                return NotFound();
+            }
+            return View(permissao);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Alterar(string id, [Bind("Descricao,Id,Name,NormalizedName,ConcurrencyStamp")] Permissao permissao)
+        {
+            if (id != permissao.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                await _permissaoService.Atualizar(permissao);
+                return RedirectToAction("Index", "Permissao");
+
+            }
+            return View(permissao);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(string id)
+        {
+            Permissao p = new Permissao()
+            {
+                Id = id
+            };
+            _permissaoService.Excluir(p);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -31,5 +31,20 @@ namespace TDSTecnologia.Site.Infrastructure.Repository
             return _context.Permissoes.ToList();
         }
 
+        public Permissao PesquisarPorId(string id)
+        {
+            return _context.Permissoes.Find(id);
+        }
+
+        public async Task<IdentityResult> Atualizar(Permissao permissao)
+        {
+           return await _roleManager.UpdateAsync(permissao);
+        }
+
+        public void Excluir(Permissao permissao)
+        {
+            _roleManager.DeleteAsync(permissao);
+        }
+
     }
 }
