@@ -14,6 +14,7 @@ namespace TDSTecnologia.Site.Infrastructure.Data
         }
 
         public DbSet<Curso> CursoDao { get; set; }
+        public DbSet<Permissao> Permissoes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

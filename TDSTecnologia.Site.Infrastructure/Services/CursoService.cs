@@ -21,7 +21,7 @@ namespace TDSTecnologia.Site.Infrastructure.Services
 
         public void Salvar(Curso curso)
         {
-            _context.Add(curso);
+            _cursoRespository.Salvar(curso);
             SaveChangesApp();
         }
 

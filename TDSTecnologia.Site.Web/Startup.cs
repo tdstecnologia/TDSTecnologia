@@ -23,6 +23,7 @@ namespace TDSTecnologia.Site.Web
         {
             services.AddScoped<CursoService, CursoService>();
             services.AddScoped<UsuarioService, UsuarioService>();
+            services.AddScoped<PermissaoService, PermissaoService>();
 
             services.AddMvc();
             services.AddEntityFrameworkNpgsql()
