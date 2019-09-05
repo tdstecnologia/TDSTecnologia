@@ -41,6 +41,8 @@ namespace TDSTecnologia.Site.Web
          .AddDbContext<AppContexto>(options => options.UseNpgsql(Databases.Instance.Conexao));
 
             services.AddScoped<CursoService, CursoService>();
+            services.AddScoped<UsuarioService, UsuarioService>();
+            services.AddScoped<PermissaoService, PermissaoService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

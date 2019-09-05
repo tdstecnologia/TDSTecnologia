@@ -39,16 +39,16 @@ namespace TDSTecnologia.Site.Infrastructure.Services
             return _permissaoRepository.PesquisarPorId(id);
         }
 
-        public async Task<IdentityResult> Atualizar(Permissao permissao)
+        public void Atualizar(Permissao permissao)
         {
-            IdentityResult result = await _permissaoRepository.Atualizar(permissao);
+            _permissaoRepository.Atualizar(permissao);
             SaveChangesApp();
-            return result;
         }
 
-        public void Excluir(Permissao permissao)
+        public void Excluir(string id)
         {
-            _permissaoRepository.Excluir(permissao);
+            _permissaoRepository.Excluir(PesquisarPorId(id));
+            SaveChangesApp();
         }
     }
 }

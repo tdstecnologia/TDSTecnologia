@@ -36,9 +36,9 @@ namespace TDSTecnologia.Site.Infrastructure.Repository
             return _context.Permissoes.Find(id);
         }
 
-        public async Task<IdentityResult> Atualizar(Permissao permissao)
+        public  void Atualizar(Permissao permissao)
         {
-           return await _roleManager.UpdateAsync(permissao);
+           _context.Update(permissao);
         }
 
         public void Excluir(Permissao permissao)

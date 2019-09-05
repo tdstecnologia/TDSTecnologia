@@ -8,8 +8,8 @@ namespace TDSTecnologia.Site.Infrastructure.Map
     {
         public void Configure(EntityTypeBuilder<Permissao> builder)
         {
+            builder.HasKey(x => x.Id);
             builder.Property(n => n.Descricao).HasColumnName("descricao").IsRequired().HasMaxLength(400);
-
             builder.ToTable("tb03_permissao");
         }
     }

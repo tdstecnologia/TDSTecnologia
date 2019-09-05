@@ -14,6 +14,7 @@ namespace TDSTecnologia.Site.Infrastructure.Data
         }
 
         public DbSet<Curso> CursoDao { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Permissao> Permissoes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -21,21 +22,6 @@ namespace TDSTecnologia.Site.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("tdstecnologia");
             modelBuilder.ApplyConfiguration(new CursoMapConfiguration());
-
-            modelBuilder
-           .Entity<Curso>()
-           .Property(c => c.Modalidade)
-           .HasConversion(
-           v => v.ToString(),
-           v => (DomModalidade)Enum.Parse(typeof(DomModalidade), v));
-
-            modelBuilder
-           .Entity<Curso>()
-           .Property(c => c.Nivel)
-           .HasConversion(
-           v => v.ToString(),
-           v => (DomNivel)Enum.Parse(typeof(DomNivel), v));
-
             modelBuilder.ApplyConfiguration(new UsuarioMapConfiguration());
             modelBuilder.ApplyConfiguration(new PermissaoMapConfiguration());
         }

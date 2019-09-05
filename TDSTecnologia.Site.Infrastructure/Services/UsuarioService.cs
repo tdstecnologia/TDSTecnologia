@@ -30,6 +30,11 @@ namespace TDSTecnologia.Site.Infrastructure.Services
             await _usuarioRepository.Login(usuario, lembrar);
         }
 
+        public async Task<Usuario> PesquisarUsuarioPeloEmail(string email)
+        {
+            return await _usuarioRepository.PesquisarUsuarioPeloEmail(email);
+        }
+
         public async Task Logout()
         {
             await _usuarioRepository.Logout();

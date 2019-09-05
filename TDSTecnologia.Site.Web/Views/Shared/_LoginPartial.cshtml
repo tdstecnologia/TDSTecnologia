@@ -4,10 +4,15 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <text>Olá, @UserManager.GetUserName(User) - </text>
-            <a class="btn btn-link navbar-link" asp-controller="Usuario" asp-action="Logout">Logout</a>
-        </li>
-    </ul>
+    <div class="btn-group" role="group" aria-label="Grupo de botões com dropdown aninhado">
+
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <text>@UserManager.GetUserName(User)</text>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" asp-controller="Usuario" asp-action="Logout">Sair</a>
+            </div>
+        </div>
+    </div>
 }

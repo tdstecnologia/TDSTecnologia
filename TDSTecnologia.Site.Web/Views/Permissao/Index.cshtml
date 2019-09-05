@@ -57,7 +57,7 @@
             $(".btnExcluir").on('click', function () {
                 var url = "/" + controller + "/Delete/";
                 $.ajax({
-                    method: "POST",
+                    method: "Delete",
                     url: url,
                     data: { id: id },
                     success: function () {

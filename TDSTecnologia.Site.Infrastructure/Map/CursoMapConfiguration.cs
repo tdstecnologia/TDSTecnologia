@@ -20,6 +20,12 @@ namespace TDSTecnologia.Site.Infrastructure.Map
             builder.Property(x => x.Turno)
                .HasConversion(DominioConverter.ConverterDomTurno());
 
+            builder.Property(x => x.Modalidade)
+                .HasConversion(DominioConverter.ConverterDomModalidade());
+
+            builder.Property(x => x.Nivel)
+                .HasConversion(DominioConverter.ConverterDomNivel());
+
             builder.ToTable("tb01_curso");
         }
     }

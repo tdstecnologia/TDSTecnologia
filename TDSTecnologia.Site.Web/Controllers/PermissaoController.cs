@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Services;
@@ -63,7 +61,7 @@ namespace TDSTecnologia.Site.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Alterar(string id, [Bind("Descricao,Id,Name,NormalizedName,ConcurrencyStamp")] Permissao permissao)
+        public IActionResult Alterar(string id, [Bind("Descricao,Id,Name,NormalizedName,ConcurrencyStamp")] Permissao permissao)
         {
             if (id != permissao.Id)
             {
@@ -72,21 +70,18 @@ namespace TDSTecnologia.Site.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                await _permissaoService.Atualizar(permissao);
+                _permissaoService.Atualizar(permissao);
                 return RedirectToAction("Index", "Permissao");
 
             }
             return View(permissao);
         }
 
-        [HttpPost]
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(string id)
         {
-            Permissao p = new Permissao()
-            {
-                Id = id
-            };
-            _permissaoService.Excluir(p);
+            _permissaoService.Excluir(id);
             return RedirectToAction(nameof(Index));
         }
     }
