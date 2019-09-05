@@ -21,6 +21,7 @@ namespace TDSTecnologia.Site.Web.Controllers
             return View("Index", permissoes);
         }
 
+        [HttpGet]
         public IActionResult Novo()
         {
             return View("Novo");
@@ -38,7 +39,7 @@ namespace TDSTecnologia.Site.Web.Controllers
                 {
                     permissao.NormalizedName = permissao.Name.ToUpper();
                     await _permissaoService.Salvar(permissao);
-                    return RedirectToAction("Novo", "Permissao");
+                    return RedirectToAction("Index", "Permissao");
                 }
             }
             return View(permissao);
@@ -78,8 +79,7 @@ namespace TDSTecnologia.Site.Web.Controllers
         }
 
         [HttpDelete]
-        [ValidateAntiForgeryToken]
-        public IActionResult Delete(string id)
+        public IActionResult Excluir(string id)
         {
             _permissaoService.Excluir(id);
             return RedirectToAction(nameof(Index));

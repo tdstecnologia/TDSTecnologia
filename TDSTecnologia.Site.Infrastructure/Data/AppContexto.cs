@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using TDSTecnologia.Site.Core.Dominio;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Map;
 
@@ -20,7 +18,7 @@ namespace TDSTecnologia.Site.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.HasDefaultSchema("tdstecnologia");
+            modelBuilder.HasDefaultSchema("tds");
             modelBuilder.ApplyConfiguration(new CursoMapConfiguration());
             modelBuilder.ApplyConfiguration(new UsuarioMapConfiguration());
             modelBuilder.ApplyConfiguration(new PermissaoMapConfiguration());
