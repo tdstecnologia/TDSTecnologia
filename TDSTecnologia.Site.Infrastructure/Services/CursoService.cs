@@ -2,6 +2,7 @@
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
 using TDSTecnologia.Site.Infrastructure.Repository;
+using X.PagedList;
 
 namespace TDSTecnologia.Site.Infrastructure.Services
 {
@@ -19,7 +20,12 @@ namespace TDSTecnologia.Site.Infrastructure.Services
             return _cursoRespository.ListarTodos();
         }
 
-        public void Salvar(Curso curso)
+        public IPagedList<Curso> ListarComPaginacao(int? pagina)
+        {
+            return _cursoRespository.ListarComPaginacao(pagina); ;
+        }
+
+            public void Salvar(Curso curso)
         {
             _cursoRespository.Salvar(curso);
             SaveChangesApp();

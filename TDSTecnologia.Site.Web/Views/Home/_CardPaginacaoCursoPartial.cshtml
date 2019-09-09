@@ -1,0 +1,34 @@
+﻿@model X.PagedList.IPagedList<TDSTecnologia.Site.Core.Entities.Curso>
+@using X.PagedList.Mvc.Core
+@foreach (var item in Model)
+{
+    <div class="col-sm-6 col-md-6 col-lg-4" style="margin-top:10px;">
+        <div class="card">
+            <a asp-action="Detalhes" asp-route-id="@item.Id">
+                <img class="card-img-top" alt="Card image cap" src="@item.BannerBase64" />
+            </a>
+            <div class="card-body" style="min-height: 200px; max-height:200px;overflow-y: hidden;">
+                <a asp-action="Detalhes" asp-route-id="@item.Id">
+                    <h5 class="card-title text-primary">@item.Nome</h5>
+                </a>
+                <p class="card-text">
+                    @item.Descricao
+                </p>
+            </div>
+            <div class="card-body">
+                <a asp-action="Alterar" class="btn btn-sm btn-outline-info" asp-route-id="@item.Id">Alterar</a>
+                <a asp-action="Excluir" class="btn btn-sm btn-outline-danger" asp-route-id="@item.Id">Excluir</a>
+            </div>
+            <div class="card-footer text-muted" style="min-height:50px;">
+                <div class="row">
+                    <div class="col-4 col-sm-4 col-md-4 border-right">@item.Turno.Descricao()</div>
+                    <div class="col-4 col-sm-4 col-md-4 border-right">@item.QuantidadeAula <small>Aulas</small></div>
+                    <div class="col-4 col-sm-4 col-md-4" style="padding-right:0px;"><small>@item.DataInicio.ToString("dd/MM/yyyy")</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="col-12 col-lg-8 offset-lg-2">
+    @Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }));
+</div>

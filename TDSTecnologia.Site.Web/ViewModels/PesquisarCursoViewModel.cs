@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using TDSTecnologia.Site.Core.Entities;
+using X.PagedList;
 
 namespace TDSTecnologia.Site.Web.ViewModels
 {
@@ -9,5 +10,7 @@ namespace TDSTecnologia.Site.Web.ViewModels
         public string Texto { get; set; }
 
         public IEnumerable<Curso> Cursos { get; set; }
+
+        public IPagedList<Curso> CursosComPaginacao { get; set; }
     }
 }

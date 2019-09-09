@@ -22,8 +22,6 @@
             </div>
         </form>
     </div>
-    @foreach (var item in Model.Cursos)
-    {
-        @await Html.PartialAsync("_CardCursoPartial.cshtml", item)
-    }
+    @await Html.PartialAsync("_CardPaginacaoCursoPartial.cshtml", Model.CursosComPaginacao)
+
 </div>
