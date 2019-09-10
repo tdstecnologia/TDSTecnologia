@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Core.Utilitarios;
+using TDSTecnologia.Site.Infrastructure.Integrations.Email;
 using TDSTecnologia.Site.Infrastructure.Services;
 using TDSTecnologia.Site.Web.ViewModels;
 using X.PagedList;
@@ -15,10 +16,12 @@ namespace TDSTecnologia.Site.Web.Controllers
     {
  
         private readonly CursoService _cursoService;
+        private readonly IEmail _email;
 
-        public HomeController(CursoService cursoService)
+        public HomeController(CursoService cursoService, IEmail email)
         {
             _cursoService = cursoService;
+            _email = email;
         }
 
         public IActionResult Index(int? pagina)
@@ -138,6 +141,18 @@ namespace TDSTecnologia.Site.Web.Controllers
         public IActionResult ConfirmarExclusao(int id)
         {
             _cursoService.Excluir(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> Email()
+        {
+            string assunto = "Mensagem da Aplicação TDSTecnologia";
+
+            string mensagem = string.Format("Email enviado!!!");
+
+            await _email.EnviarEmail("zzzzz@gmail.com", assunto, mensagem);
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
+using TDSTecnologia.Site.Infrastructure.Integrations.Email;
 using TDSTecnologia.Site.Infrastructure.Services;
 
 namespace TDSTecnologia.Site.Web
@@ -38,7 +39,9 @@ namespace TDSTecnologia.Site.Web
             services.AddScoped<UsuarioService, UsuarioService>();
             services.AddScoped<PermissaoService, PermissaoService>();
 
-            
+            services.Configure<ConfiguracoesEmail>(Configuration.GetSection("ConfiguracoesEmail"));
+            services.AddScoped<IEmail, Email>();
+
 
             services.ConfigureApplicationCookie(opcoes =>
             {
@@ -65,6 +68,9 @@ namespace TDSTecnologia.Site.Web
             services.AddScoped<CursoService, CursoService>();
             services.AddScoped<UsuarioService, UsuarioService>();
             services.AddScoped<PermissaoService, PermissaoService>();
+
+            services.Configure<ConfiguracoesEmail>(Configuration.GetSection("ConfiguracoesEmail"));
+            services.AddScoped<IEmail, Email>();
 
 
 
