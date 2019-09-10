@@ -29,7 +29,7 @@ namespace TDSTecnologia.Site.Web
         {
             services.AddMvc();
             services.AddEntityFrameworkNpgsql()
-         .AddDbContext<AppContexto>(options => options.UseNpgsql(Configuration.GetConnectionString("AppConnection")));
+         .AddDbContext<AppContexto>(options => options.UseNpgsql(Databases.Instance.Conexao));
 
             services.AddIdentity<Usuario, Permissao>()
                             .AddDefaultUI(UIFramework.Bootstrap4)
@@ -59,7 +59,7 @@ namespace TDSTecnologia.Site.Web
         {
             services.AddMvc();
             services.AddEntityFrameworkNpgsql()
-         .AddDbContext<AppContexto>(options => options.UseNpgsql(Configuration.GetConnectionString("AppConnection")));
+         .AddDbContext<AppContexto>(options => options.UseNpgsql(Databases.Instance.Conexao));
 
             services.AddIdentity<Usuario, Permissao>()
                             .AddDefaultUI(UIFramework.Bootstrap4)
