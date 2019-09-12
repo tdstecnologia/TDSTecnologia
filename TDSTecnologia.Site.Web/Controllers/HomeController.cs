@@ -13,7 +13,7 @@ using X.PagedList;
 
 namespace TDSTecnologia.Site.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : AppAbstractController
     {
  
         private readonly CursoService _cursoService;
@@ -65,11 +65,20 @@ namespace TDSTecnologia.Site.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Novo([Bind("Id,Nome,Descricao,QuantidadeAula,DataInicio,Turno,Modalidade,Nivel,Vagas")] Curso curso, IFormFile arquivo)
         {
-            if (ModelState.IsValid)
+            try
             {
-                curso.Banner = UtilImagem.ConverterParaByte(arquivo);
-               _cursoService.Salvar(curso);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    curso.Banner = UtilImagem.ConverterParaByte(arquivo);
+                    _cursoService.Salvar(curso);
+                    AddMensagemSucesso("Curso Cadastrado");
+                    return RedirectToAction(nameof(Novo));
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                AddMensagemErro("Falha no cadastro");
             }
             return View(curso);
         }
