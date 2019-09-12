@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,15 +18,17 @@ namespace TDSTecnologia.Site.Web.Controllers
  
         private readonly CursoService _cursoService;
         private readonly IEmail _email;
+        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(CursoService cursoService, IEmail email)
+        public HomeController(CursoService cursoService, ILogger<HomeController> logger)
         {
             _cursoService = cursoService;
-            _email = email;
+            _logger = logger; ;
         }
 
         public IActionResult Index(int? pagina)
         {
+            _logger.LogInformation("Listagem de cursos...");
             IPagedList<Curso> cursos = _cursoService.ListarComPaginacao(pagina);
             var viewModel = new CursoViewModel
             {
