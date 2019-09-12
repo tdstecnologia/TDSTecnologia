@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
@@ -41,7 +42,8 @@ namespace TDSTecnologia.Site.Web
 
             services.Configure<ConfiguracoesEmail>(Configuration.GetSection("ConfiguracoesEmail"));
             services.AddScoped<IEmail, Email>();
-
+            services.AddLogging();
+            services.AddSingleton<ILoggerFactory, LoggerFactory>();
 
             services.ConfigureApplicationCookie(opcoes =>
             {
