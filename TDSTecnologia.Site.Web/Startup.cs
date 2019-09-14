@@ -147,6 +147,7 @@ namespace TDSTecnologia.Site.Web
         {
             _logger.LogInformation("AMBIENTE: " + env.EnvironmentName);
             _logger.LogInformation("ARQUIVO: " + Configuration.GetValue<string>("Arquivo"));
+            app.UseStatusCodePagesWithReExecute("/Erros/{0}");
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
