@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
+using TDSTecnologia.Site.Infrastructure.Integrations.Google;
 using TDSTecnologia.Site.Infrastructure.Security;
 using TDSTecnologia.Site.Infrastructure.Services;
 using TDSTecnologia.Site.Web.ViewModels;
 
 namespace TDSTecnologia.Site.Web.Controllers
 {
-    public class UsuarioController : Controller
+    public class UsuarioController : AppAbstractController
     {
 
         private readonly UsuarioService _usuarioService;
@@ -74,6 +75,18 @@ namespace TDSTecnologia.Site.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            string recaptcha = HttpContext.Request.Form["g-recaptcha-response"];
+            if (string.IsNullOrEmpty(recaptcha))
+            {
+                AddMensagemErro("ReCaptcha inválido");
+                return View(model);
+            }
+            else if(!GoogleReCaptchaService.IsReCaptchaValido(recaptcha))
+            {
+                AddMensagemErro("ReCaptcha inválido, Tente novamente!");
+                return View(model);
+            }
+
             if (ModelState.IsValid)
             {
                 var usuario = await _usuarioService.PesquisarUsuarioPeloEmail(model.Email);

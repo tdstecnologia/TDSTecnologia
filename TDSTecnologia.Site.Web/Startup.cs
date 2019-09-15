@@ -13,6 +13,7 @@ using System;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
 using TDSTecnologia.Site.Infrastructure.Integrations.Email;
+using TDSTecnologia.Site.Infrastructure.Integrations.Google;
 using TDSTecnologia.Site.Infrastructure.Services;
 
 namespace TDSTecnologia.Site.Web
@@ -48,6 +49,8 @@ namespace TDSTecnologia.Site.Web
             services.AddLogging();
             services.AddSingleton<ILoggerFactory, LoggerFactory>();
 
+            services.Configure<GoogleReCaptcha>(Configuration.GetSection("GoogleReCaptcha"));
+
             services.ConfigureApplicationCookie(opcoes =>
             {
                 opcoes.Cookie.HttpOnly = true;
@@ -78,6 +81,8 @@ namespace TDSTecnologia.Site.Web
             services.AddLogging();
             services.AddSingleton<ILoggerFactory, LoggerFactory>();
 
+            services.Configure<GoogleReCaptcha>(Configuration.GetSection("Googl	eReCaptcha"));
+
             services.ConfigureApplicationCookie(opcoes =>
             {
                 opcoes.Cookie.HttpOnly = true;
@@ -106,7 +111,7 @@ namespace TDSTecnologia.Site.Web
             services.Configure<ConfiguracoesEmail>(Configuration.GetSection("ConfiguracoesEmail"));
             services.AddScoped<IEmail, Email>();
 
-
+            services.Configure<GoogleReCaptcha>(Configuration.GetSection("GoogleReCaptcha"));
 
             services.ConfigureApplicationCookie(opcoes =>
             {
@@ -121,7 +126,7 @@ namespace TDSTecnologia.Site.Web
 
         public void ConfigureDevelopment(IApplicationBuilder app, IHostingEnvironment env)
         {
-            _logger.LogInformation("AMBIENTE: "+ env.EnvironmentName);
+            _logger.LogInformation("AMBIENTE: " + env.EnvironmentName);
 
             if (env.IsDevelopment())
             {
