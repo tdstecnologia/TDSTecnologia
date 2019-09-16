@@ -97,6 +97,19 @@ namespace TDSTecnologia.Site.Web
         public void ConfigureProductionServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opcoes =>
+            {
+                opcoes.Cookie.HttpOnly = true;
+                opcoes.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                opcoes.Cookie.Name = "TDSTecnologiaSite";
+                opcoes.LoginPath = new PathString("/Acesso/Usuario/Login");
+                opcoes.LogoutPath = new PathString("/Usuario/Logout");
+                opcoes.AccessDeniedPath = new PathString("/Usuario/AcessoNegado");
+                opcoes.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                opcoes.SlidingExpiration = true;
+            });
+
             services.AddEntityFrameworkNpgsql()
          .AddDbContext<AppContexto>(options => options.UseNpgsql(Databases.Instance.Conexao));
 
@@ -112,15 +125,6 @@ namespace TDSTecnologia.Site.Web
             services.AddScoped<IEmail, Email>();
 
             services.Configure<GoogleReCaptcha>(Configuration.GetSection("GoogleReCaptcha"));
-
-            services.ConfigureApplicationCookie(opcoes =>
-            {
-                opcoes.Cookie.HttpOnly = true;
-                opcoes.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                opcoes.LoginPath = "/Usuarios/Login";
-                opcoes.LogoutPath = "/Usuarios/logout";
-                opcoes.SlidingExpiration = true;
-            });
 
         }
 

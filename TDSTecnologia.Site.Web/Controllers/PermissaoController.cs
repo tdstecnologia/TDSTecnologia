@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
@@ -6,6 +7,7 @@ using TDSTecnologia.Site.Infrastructure.Services;
 
 namespace TDSTecnologia.Site.Web.Controllers
 {
+    [Authorize]
     public class PermissaoController : Controller
     {
         private readonly PermissaoService _permissaoService;

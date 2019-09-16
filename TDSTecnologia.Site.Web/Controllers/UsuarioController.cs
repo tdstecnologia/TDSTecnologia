@@ -10,6 +10,8 @@ using TDSTecnologia.Site.Web.ViewModels;
 
 namespace TDSTecnologia.Site.Web.Controllers
 {
+    [Area("Acesso")]
+    [Route("Usuario")]
     public class UsuarioController : AppAbstractController
     {
 
@@ -19,6 +21,7 @@ namespace TDSTecnologia.Site.Web.Controllers
             _usuarioService = usuarioService;
         }
 
+        [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
             await _usuarioService.Logout();
@@ -29,6 +32,14 @@ namespace TDSTecnologia.Site.Web.Controllers
         public IActionResult Cadastro()
         {
             return View("Cadastro");
+        }
+
+        [HttpGet]
+        [Route("AcessoNegado")]
+        public IActionResult AcessoNegado()
+        {
+            AddMensagemErro("Acesso Negado");
+            return View("AcessoNegado");
         }
 
         [HttpPost]
@@ -61,6 +72,7 @@ namespace TDSTecnologia.Site.Web.Controllers
 
         [AllowAnonymous]
         [HttpGet]
+        [Route("Login")]
         public async Task<IActionResult> Login()
         {
             if (User.Identity.IsAuthenticated)
