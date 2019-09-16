@@ -47,11 +47,8 @@
             </main>
         </div>
     </div>
-    <footer class="border-top text-muted footer">
-        <div class="container">
-            &copy; 2019 - TDS Tecnologia
-        </div>
-    </footer>
+
+    @await Html.PartialAsync("_FooterPartial.cshtml")
 
     <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
