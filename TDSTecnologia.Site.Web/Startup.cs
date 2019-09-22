@@ -36,9 +36,15 @@ namespace TDSTecnologia.Site.Web
             services.AddEntityFrameworkNpgsql()
          .AddDbContext<AppContexto>(options => options.UseNpgsql(Databases.Instance.Conexao));
 
-            services.AddIdentity<Usuario, Permissao>()
-                            .AddDefaultUI(UIFramework.Bootstrap4)
+            services.AddIdentity<Usuario, Permissao>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            }).AddDefaultTokenProviders()
+            .AddDefaultUI(UIFramework.Bootstrap4)
                             .AddEntityFrameworkStores<AppContexto>();
+
+            services.Configure<DataProtectionTokenProviderOptions>(o =>
+                o.TokenLifespan = TimeSpan.FromHours(3));
 
             services.AddScoped<CursoService, CursoService>();
             services.AddScoped<UsuarioService, UsuarioService>();
@@ -68,8 +74,11 @@ namespace TDSTecnologia.Site.Web
             services.AddEntityFrameworkNpgsql()
          .AddDbContext<AppContexto>(options => options.UseNpgsql(Databases.Instance.Conexao));
 
-            services.AddIdentity<Usuario, Permissao>()
-                            .AddDefaultUI(UIFramework.Bootstrap4)
+            services.AddIdentity<Usuario, Permissao>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            }).AddDefaultTokenProviders()
+            .AddDefaultUI(UIFramework.Bootstrap4)
                             .AddEntityFrameworkStores<AppContexto>();
 
             services.AddScoped<CursoService, CursoService>();
@@ -100,8 +109,11 @@ namespace TDSTecnologia.Site.Web
             services.AddEntityFrameworkNpgsql()
          .AddDbContext<AppContexto>(options => options.UseNpgsql(Databases.Instance.Conexao));
 
-            services.AddIdentity<Usuario, Permissao>()
-                            .AddDefaultUI(UIFramework.Bootstrap4)
+            services.AddIdentity<Usuario, Permissao>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            }).AddDefaultTokenProviders()
+            .AddDefaultUI(UIFramework.Bootstrap4)
                             .AddEntityFrameworkStores<AppContexto>();
 
             services.AddScoped<CursoService, CursoService>();
@@ -128,10 +140,7 @@ namespace TDSTecnologia.Site.Web
         {
             _logger.LogInformation("AMBIENTE: " + env.EnvironmentName);
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
