@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Security.Policy;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Infrastructure.Data;
@@ -33,6 +35,11 @@ namespace TDSTecnologia.Site.Infrastructure.Services
         public async Task<Usuario> PesquisarUsuarioPeloEmail(string email)
         {
             return await _usuarioRepository.PesquisarUsuarioPeloEmail(email);
+        }
+
+        public async Task<Usuario> PesquisarUsuarioPeloIdAsync(string usuarioId)
+        {
+            return await _usuarioRepository.PesquisarUsuarioPeloIdAsync(usuarioId);
         }
 
         public async Task Logout()
