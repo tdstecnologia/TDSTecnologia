@@ -1,0 +1,26 @@
+﻿@model bool
+@{
+    ViewData["Title"] = "Novo";
+}
+
+<div>
+    <h1 class="text-center">Confirmação de Email</h1>
+</div>
+<hr />
+<div class="row">
+    <div class="col-12 col-lg-8 offset-lg-2">
+        <partial name="_MensagemPartial" />
+        @if (Model)
+        {
+            <div>
+                <section class="row justify-content-center mb-5">
+                    <div class="form-group">
+                        <a class="btn btn-primary" asp-action="Login">Entrar</a>
+                    </div>
+                </section>
+            </div>
+        }
+    </div>
+</div>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+

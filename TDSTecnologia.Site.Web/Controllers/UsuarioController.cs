@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
+using TDSTecnologia.Site.Infrastructure.Integrations.Email;
 using TDSTecnologia.Site.Infrastructure.Integrations.Google;
 using TDSTecnologia.Site.Infrastructure.Security;
 using TDSTecnologia.Site.Infrastructure.Services;
@@ -14,8 +16,12 @@ namespace TDSTecnologia.Site.Web.Controllers
     {
 
         private readonly UsuarioService _usuarioService;
-        public UsuarioController(UsuarioService usuarioService)
+        private readonly UserManager<Usuario> _userManager;
+        private readonly IEmail _email;
+        public UsuarioController(UsuarioService usuarioService, UserManager<Usuario> userManager, IEmail email)
         {
+            _userManager = userManager;
+            _email = email;
             _usuarioService = usuarioService;
         }
 
@@ -42,9 +48,12 @@ namespace TDSTecnologia.Site.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _usuarioService.AdicionarPermissao(usuario, "Administrador");
-                    await _usuarioService.Login(usuario, false);
-                    return RedirectToAction("Index", "Home");
+                    //await _usuarioService.AdicionarPermissao(usuario, "Administrador");
+                    await EnviarEmailConfirmacaoCadastroAsync(usuario);
+                    //await _usuarioService.Login(usuario, false);
+                    //return RedirectToAction("Index", "Home");
+                    AddMensagemSucesso("Seu cadastro foi realizado. Verifique seu e-mail para confirmar seu cadastro");
+                    return RedirectToAction(nameof(Cadastro));
                 }
                 else
                 {
@@ -93,16 +102,22 @@ namespace TDSTecnologia.Site.Web.Controllers
 
                 if (usuario != null)
                 {
-
-                    if (SecurityUtil.CompararSenhas(usuario, model.Senha))
+                    if (!usuario.EmailConfirmed)
                     {
-                        await _usuarioService.Login(usuario, false);
-
-                        return RedirectToAction("Index", "Home");
+                        AddMensagemAlerta("Confirme seu e-mail para poder fazer o login");
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Senha inválida");
+                        if (SecurityUtil.CompararSenhas(usuario, model.Senha))
+                        {
+                            await _usuarioService.Login(usuario, false);
+
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Senha inválida");
+                        }
                     }
                 }
                 else
@@ -110,7 +125,46 @@ namespace TDSTecnologia.Site.Web.Controllers
                     ModelState.AddModelError("", "Email inválido");
                 }
             }
-            return View(model);
+            return View("Login", model);
+        }
+
+        public async Task EnviarEmailConfirmacaoCadastroAsync(Usuario usuario)
+        {
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
+            var callbackUrlAction = Url.Action(
+                "ConfirmarEmail", "Usuario", new
+                {
+                    userId = usuario.Id,
+                    code = token
+                },
+                protocol: Request.Scheme);
+
+            await _email.EnviarEmail(usuario.Email, "Confirmação de Conta",
+                $"Confirme sua conta clicando no link <a href='{HtmlEncoder.Default.Encode(callbackUrlAction)}'>Clique Aqui</a>.");
+        }
+
+        public async Task<IActionResult> ConfirmarEmail(string userId, string code)
+        {
+            if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(code))
+            {
+                AddMensagemErro(string.Format("Link de confirmação inválido"));
+                return View();
+            }
+            else
+            {
+                Usuario usuario = await _usuarioService.PesquisarUsuarioPeloIdAsync(userId);
+                IdentityResult result = await _userManager.ConfirmEmailAsync(usuario, code);
+                if (result.Succeeded)
+                {
+                    AddMensagemSucesso(string.Format("Seu email {0} foi confirmado", usuario.Email));
+                }
+                else
+                {
+                    AddMensagemErro(string.Format("Seu email {0} não pode ser confirmado", usuario.Email));
+                }
+                return View("ConfirmarEmail", result.Succeeded);
+            }
         }
     }
 }
