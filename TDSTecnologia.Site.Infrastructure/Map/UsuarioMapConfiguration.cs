@@ -13,6 +13,7 @@ namespace TDSTecnologia.Site.Infrastructure.Map
             builder.HasIndex(u => u.CPF).IsUnique();
             builder.Property(u => u.Telefone).IsRequired().HasMaxLength(30).HasColumnName("telefone");
 
+            /*
             builder.Ignore(u => u.EmailConfirmed);
             builder.Ignore(u => u.AccessFailedCount);
             builder.Ignore(u => u.LockoutEnabled);
@@ -20,6 +21,7 @@ namespace TDSTecnologia.Site.Infrastructure.Map
             builder.Ignore(u => u.PhoneNumber);
             builder.Ignore(u => u.PhoneNumberConfirmed);
             builder.Ignore(u => u.TwoFactorEnabled);
+            */
 
             builder.ToTable("tb02_usuario");
         }

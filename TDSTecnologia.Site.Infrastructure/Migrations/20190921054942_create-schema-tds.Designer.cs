@@ -10,14 +10,14 @@ using TDSTecnologia.Site.Infrastructure.Data;
 namespace TDSTecnologia.Site.Infrastructure.Migrations
 {
     [DbContext(typeof(AppContexto))]
-    [Migration("20190831161344_DDL_DATABASES")]
-    partial class DDL_DATABASES
+    [Migration("20190921054942_create-schema-tds")]
+    partial class createschematds
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("tdstecnologia")
+                .HasDefaultSchema("tds")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
@@ -183,6 +183,8 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AccessFailedCount");
+
                     b.Property<string>("CPF")
                         .IsRequired()
                         .HasColumnName("cpf");
@@ -192,6 +194,12 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -206,12 +214,18 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
 
                     b.Property<string>("PasswordHash");
 
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasColumnName("telefone")
                         .HasMaxLength(30);
+
+                    b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);

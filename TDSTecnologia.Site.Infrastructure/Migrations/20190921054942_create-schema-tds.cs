@@ -4,16 +4,16 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TDSTecnologia.Site.Infrastructure.Migrations
 {
-    public partial class DDL_DATABASES : Migration
+    public partial class createschematds : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "tdstecnologia");
+                name: "tds");
 
             migrationBuilder.CreateTable(
                 name: "tb01_curso",
-                schema: "tdstecnologia",
+                schema: "tds",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
@@ -35,7 +35,7 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "tb02_usuario",
-                schema: "tdstecnologia",
+                schema: "tds",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -43,9 +43,16 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
                     nome = table.Column<string>(maxLength: 100, nullable: false),
                     cpf = table.Column<string>(nullable: false),
                     telefone = table.Column<string>(maxLength: 30, nullable: false)
@@ -57,7 +64,7 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "tb03_permissao",
-                schema: "tdstecnologia",
+                schema: "tds",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -73,7 +80,7 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
-                schema: "tdstecnologia",
+                schema: "tds",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -88,7 +95,7 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserClaims_tb02_usuario_UserId",
                         column: x => x.UserId,
-                        principalSchema: "tdstecnologia",
+                        principalSchema: "tds",
                         principalTable: "tb02_usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -96,7 +103,7 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
-                schema: "tdstecnologia",
+                schema: "tds",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(nullable: false),
@@ -110,7 +117,7 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_tb02_usuario_UserId",
                         column: x => x.UserId,
-                        principalSchema: "tdstecnologia",
+                        principalSchema: "tds",
                         principalTable: "tb02_usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -118,7 +125,7 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
-                schema: "tdstecnologia",
+                schema: "tds",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -132,7 +139,7 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_tb02_usuario_UserId",
                         column: x => x.UserId,
-                        principalSchema: "tdstecnologia",
+                        principalSchema: "tds",
                         principalTable: "tb02_usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -140,7 +147,7 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
-                schema: "tdstecnologia",
+                schema: "tds",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -155,7 +162,7 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_tb03_permissao_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "tdstecnologia",
+                        principalSchema: "tds",
                         principalTable: "tb03_permissao",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -163,7 +170,7 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
-                schema: "tdstecnologia",
+                schema: "tds",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -175,14 +182,14 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_tb03_permissao_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "tdstecnologia",
+                        principalSchema: "tds",
                         principalTable: "tb03_permissao",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_tb02_usuario_UserId",
                         column: x => x.UserId,
-                        principalSchema: "tdstecnologia",
+                        principalSchema: "tds",
                         principalTable: "tb02_usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -190,51 +197,51 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
-                schema: "tdstecnologia",
+                schema: "tds",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
-                schema: "tdstecnologia",
+                schema: "tds",
                 table: "AspNetUserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
-                schema: "tdstecnologia",
+                schema: "tds",
                 table: "AspNetUserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
-                schema: "tdstecnologia",
+                schema: "tds",
                 table: "AspNetUserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tb02_usuario_cpf",
-                schema: "tdstecnologia",
+                schema: "tds",
                 table: "tb02_usuario",
                 column: "cpf",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                schema: "tdstecnologia",
+                schema: "tds",
                 table: "tb02_usuario",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                schema: "tdstecnologia",
+                schema: "tds",
                 table: "tb02_usuario",
                 column: "NormalizedUserName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                schema: "tdstecnologia",
+                schema: "tds",
                 table: "tb03_permissao",
                 column: "NormalizedName",
                 unique: true);
@@ -244,35 +251,35 @@ namespace TDSTecnologia.Site.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims",
-                schema: "tdstecnologia");
+                schema: "tds");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserClaims",
-                schema: "tdstecnologia");
+                schema: "tds");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserLogins",
-                schema: "tdstecnologia");
+                schema: "tds");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserRoles",
-                schema: "tdstecnologia");
+                schema: "tds");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens",
-                schema: "tdstecnologia");
+                schema: "tds");
 
             migrationBuilder.DropTable(
                 name: "tb01_curso",
-                schema: "tdstecnologia");
+                schema: "tds");
 
             migrationBuilder.DropTable(
                 name: "tb03_permissao",
-                schema: "tdstecnologia");
+                schema: "tds");
 
             migrationBuilder.DropTable(
                 name: "tb02_usuario",
-                schema: "tdstecnologia");
+                schema: "tds");
         }
     }
 }
