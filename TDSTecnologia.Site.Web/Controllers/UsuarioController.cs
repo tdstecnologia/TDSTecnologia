@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
@@ -8,6 +12,7 @@ using TDSTecnologia.Site.Infrastructure.Integrations.Email;
 using TDSTecnologia.Site.Infrastructure.Integrations.Google;
 using TDSTecnologia.Site.Infrastructure.Security;
 using TDSTecnologia.Site.Infrastructure.Services;
+using TDSTecnologia.Site.Web.Constants;
 using TDSTecnologia.Site.Web.ViewModels;
 
 namespace TDSTecnologia.Site.Web.Controllers
@@ -18,11 +23,14 @@ namespace TDSTecnologia.Site.Web.Controllers
         private readonly UsuarioService _usuarioService;
         private readonly UserManager<Usuario> _userManager;
         private readonly IEmail _email;
-        public UsuarioController(UsuarioService usuarioService, UserManager<Usuario> userManager, IEmail email)
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public UsuarioController(UsuarioService usuarioService, UserManager<Usuario> userManager, IEmail email, IHostingEnvironment hostingEnvironment)
         {
             _userManager = userManager;
             _email = email;
             _usuarioService = usuarioService;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task<IActionResult> Logout()
@@ -90,7 +98,7 @@ namespace TDSTecnologia.Site.Web.Controllers
                 AddMensagemErro("ReCaptcha inválido");
                 return View(model);
             }
-            else if(!GoogleReCaptchaService.IsReCaptchaValido(recaptcha))
+            else if (!GoogleReCaptchaService.IsReCaptchaValido(recaptcha))
             {
                 AddMensagemErro("ReCaptcha inválido, Tente novamente!");
                 return View(model);
@@ -140,30 +148,48 @@ namespace TDSTecnologia.Site.Web.Controllers
                 },
                 protocol: Request.Scheme);
 
-            await _email.EnviarEmail(usuario.Email, "Confirmação de Conta",
-                $"Confirme sua conta clicando no link <a href='{HtmlEncoder.Default.Encode(callbackUrlAction)}'>Clique Aqui</a>.");
+            var templateView = Path.Combine(_hostingEnvironment.WebRootPath, "templates");
+
+            var htmlEmail = new StringBuilder();
+
+            using (StreamReader sr = new StreamReader(Path.Combine(templateView, Paginas.EMAIL_CONFIRMACAO_CADASTRO_TEMPLATE)))
+            {
+                htmlEmail.Append(sr.ReadToEnd());
+                htmlEmail.Replace("{{link-de-confirmacao}}", HtmlEncoder.Default.Encode(callbackUrlAction));
+                htmlEmail.Replace("{{usuario-nome}}", usuario.Nome);
+            }
+
+            await _email.EnviarEmail(usuario.Email, "Confirmação de Conta", htmlEmail.ToString());
         }
 
         public async Task<IActionResult> ConfirmarEmail(string userId, string code)
         {
-            if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(code))
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(code))
             {
                 AddMensagemErro(string.Format("Link de confirmação inválido"));
-                return View();
+                return View("ConfirmarEmail", false);
             }
             else
             {
-                Usuario usuario = await _usuarioService.PesquisarUsuarioPeloIdAsync(userId);
-                IdentityResult result = await _userManager.ConfirmEmailAsync(usuario, code);
-                if (result.Succeeded)
+                try
                 {
-                    AddMensagemSucesso(string.Format("Seu email {0} foi confirmado", usuario.Email));
+                    Usuario usuario = await _usuarioService.PesquisarUsuarioPeloIdAsync(userId);
+                    IdentityResult result = await _userManager.ConfirmEmailAsync(usuario, code);
+                    if (result.Succeeded)
+                    {
+                        AddMensagemSucesso(string.Format("Seu email {0} foi confirmado", usuario.Email));
+                    }
+                    else
+                    {
+                        AddMensagemErro(string.Format("Seu email {0} não pode ser confirmado", usuario.Email));
+                    }
+                    return View("ConfirmarEmail", result.Succeeded);
                 }
-                else
+                catch (Exception e)
                 {
-                    AddMensagemErro(string.Format("Seu email {0} não pode ser confirmado", usuario.Email));
+                    AddMensagemErro(string.Format("Link de confirmação inválido! Enviar novo link de confirmação?"));
+                    return View("ConfirmarEmail", false);
                 }
-                return View("ConfirmarEmail", result.Succeeded);
             }
         }
     }
