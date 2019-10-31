@@ -18,7 +18,7 @@ namespace TDSTecnologia.Site.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.HasDefaultSchema("tds");
+            //modelBuilder.HasDefaultSchema("tds");
             modelBuilder.ApplyConfiguration(new CursoMapConfiguration());
             modelBuilder.ApplyConfiguration(new UsuarioMapConfiguration());
             modelBuilder.ApplyConfiguration(new PermissaoMapConfiguration());
