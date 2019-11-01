@@ -28,6 +28,7 @@ namespace TDSTecnologia.Site.Web
             Configuration = configuration;
             _logger = logger;
             _logger.LogInformation("ARQUIVO Construtor: " + Configuration.GetValue<string>("Arquivo"));
+            _logger.LogInformation("SISTEMA OPERACIONAL :: " + Environment.OSVersion);
         }
 
         public void ConfigureDevelopmentServices(IServiceCollection services)

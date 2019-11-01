@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Syncfusion.HtmlConverter;
+using Syncfusion.Pdf;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using TDSTecnologia.Site.Core.Entities;
 using TDSTecnologia.Site.Core.Utilitarios;
@@ -10,6 +14,7 @@ using TDSTecnologia.Site.Infrastructure.Integrations.Email;
 using TDSTecnologia.Site.Infrastructure.Services;
 using TDSTecnologia.Site.Web.ViewModels;
 using X.PagedList;
+
 
 namespace TDSTecnologia.Site.Web.Controllers
 {
@@ -19,22 +24,61 @@ namespace TDSTecnologia.Site.Web.Controllers
         private readonly CursoService _cursoService;
         private readonly IEmail _email;
         private readonly ILogger<HomeController> _logger;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public HomeController(CursoService cursoService, ILogger<HomeController> logger)
+        public HomeController(CursoService cursoService, ILogger<HomeController> logger, IHostingEnvironment hostingEnvironment)
         {
             _cursoService = cursoService;
-            _logger = logger; ;
+            _logger = logger;
+            _hostingEnvironment = hostingEnvironment;
+            
         }
 
         public IActionResult Index(int? pagina)
         {
             _logger.LogInformation("Listagem de cursos...");
+            _logger.LogInformation("SISTEMA OPERACIONAL:: " + Environment.MachineName);
+            _logger.LogInformation("SISTEMA OPERACIONAL:: " + Environment.OSVersion);
+            _logger.LogInformation("Request.Scheme:: " + ControllerContext.HttpContext.Request.Scheme);
+            _logger.LogInformation("Request.Host:: " + ControllerContext.HttpContext.Request.Host);
+            _logger.LogInformation("Request.Path:: " + ControllerContext.HttpContext.Request.Path);
+            _logger.LogInformation("Request.PathBase:: " + ControllerContext.HttpContext.Request.PathBase);
             IPagedList<Curso> cursos = _cursoService.ListarComPaginacao(pagina);
             var viewModel = new CursoViewModel
             {
                 CursosComPaginacao = cursos
             };
             return View(viewModel);
+        }
+
+        public IActionResult Pdf()
+        {
+            HtmlToPdfConverter converter = new HtmlToPdfConverter();
+            WebKitConverterSettings settings = new WebKitConverterSettings();
+            if (Environment.OSVersion.ToString().ToLower().Contains("windows"))
+            {
+                settings.WebKitPath = Path.Combine(_hostingEnvironment.ContentRootPath, "QtBinariesWindows");
+            }
+            else
+            {
+                settings.WebKitPath = Path.Combine(_hostingEnvironment.ContentRootPath, "QtBinariesLinux");
+            }  
+
+            converter.ConverterSettings = settings;
+            string schema = ControllerContext.HttpContext.Request.Scheme;
+            string host = ControllerContext.HttpContext.Request.Host.Host;
+            string url = "{schema}://{host}:52854/Home/Novo";
+            url = url.Replace("{schema}", schema);
+            url = url.Replace("{host}", host);
+            _logger.LogInformation("URL FINAL: "+url);
+            PdfDocument document = converter.Convert(url);
+            MemoryStream ms = new MemoryStream();
+            document.Save(ms);
+            document.Close();
+            ms.Position = 0;
+            FileStreamResult fileStreamResult = new FileStreamResult(ms, "application/pdf");
+            fileStreamResult.FileDownloadName = "Relatorio.pdf";     
+            return fileStreamResult;
         }
 
         public IActionResult PesquisarCurso(CursoViewModel pesquisa)
